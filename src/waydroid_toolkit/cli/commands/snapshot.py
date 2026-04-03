@@ -187,3 +187,9 @@ def _get_incus_backend():  # type: ignore[return]
         raise SystemExit(1)
     return backend
 
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(snapshot_delete, name="remove")
+cmd.add_command(snapshot_delete, name="rm")
+cmd.add_command(snapshot_list, name="ls")
+

@@ -169,3 +169,7 @@ def template_apply(name: str, dry_run: bool) -> None:
     else:
         console.print(f"[green]Template '{name}' applied.[/green]")
         console.print("Restart the container for changes to take effect.")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(template_list, name="ls")

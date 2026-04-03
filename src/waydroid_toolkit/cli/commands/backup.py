@@ -80,3 +80,8 @@ def backup_restore(archive: str, yes: bool) -> None:
         )
     restore_backup(path, progress=lambda msg: console.print(f"  [cyan]→[/cyan] {msg}"))
     console.print("[green]Restore complete.[/green]")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(backup_list, name="ls")
+cmd.add_command(backup_delete, name="rm")

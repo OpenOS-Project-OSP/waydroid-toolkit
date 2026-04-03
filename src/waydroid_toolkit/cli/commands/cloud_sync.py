@@ -263,3 +263,7 @@ def cloud_status() -> None:
     else:
         console.print("[green]All local backups synced.[/green]")
 
+
+
+# Aliases matching incusbox / imt conventions
+cloud_config.add_command(config_interactive, name="setup")

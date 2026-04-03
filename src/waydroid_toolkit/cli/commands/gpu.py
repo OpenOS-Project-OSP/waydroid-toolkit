@@ -152,7 +152,6 @@ def gpu_list() -> None:
 
 @cmd.command("status")
 def gpu_status() -> None:
-
     """Show GPU attachment status and host GPU resources."""
     ct = _container_name()
     console.print(f"[bold]GPU status:[/bold] {ct}")
@@ -202,3 +201,11 @@ def gpu_status() -> None:
                 break
             if in_gpu:
                 console.print(f"  {line}")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(gpu_attach, name="add")
+cmd.add_command(gpu_detach, name="remove")
+cmd.add_command(gpu_detach, name="rm")
+cmd.add_command(gpu_list_host, name="host")
+cmd.add_command(gpu_list, name="ls")
