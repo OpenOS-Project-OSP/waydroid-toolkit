@@ -7,6 +7,8 @@ from pathlib import Path
 import click
 from rich.console import Console
 
+from waydroid_toolkit.core.container import BackendType, IncusBackend, LxcBackend
+from waydroid_toolkit.core.container import set_active as set_active_backend
 from waydroid_toolkit.modules.builder.builder import read_manifest
 from waydroid_toolkit.modules.installer.installer import (
     ImageArch,
@@ -32,6 +34,16 @@ console = Console()
 @click.option("--no-bundled-apps", is_flag=True,
               help="Skip installing bundled apps (F-Droid, AuroraStore, etc.) after init.")
 @click.option(
+    "--backend",
+    type=click.Choice(["incus", "lxc"]),
+    default="incus",
+    show_default=True,
+    help=(
+        "Container backend to activate after installation. "
+        "'incus' is recommended; use 'lxc' only if Incus is not available."
+    ),
+)
+@click.option(
     "--from-manifest",
     type=click.Path(exists=True, path_type=Path),
     default=None,
@@ -47,6 +59,7 @@ def cmd(
     skip_repo: bool,
     init_only: bool,
     no_bundled_apps: bool,
+    backend: str,
     from_manifest: Path | None,
 ) -> None:
     """Install Waydroid and initialise with the chosen image type.
@@ -61,6 +74,7 @@ def cmd(
     # ── Manifest mode ─────────────────────────────────────────────────────────
     if from_manifest is not None:
         _install_from_manifest(from_manifest, no_bundled_apps)
+        _activate_backend(backend)
         return
 
     # ── Standard mode ─────────────────────────────────────────────────────────
@@ -88,7 +102,33 @@ def cmd(
         install_apps=not no_bundled_apps,
         progress=progress,
     )
+    _activate_backend(backend)
     console.print("[green]Done. Run 'wdt status' to verify.[/green]")
+
+
+def _activate_backend(backend_name: str) -> None:
+    """Persist the chosen backend to the toolkit config."""
+    backend_type = BackendType(backend_name)
+    backend_map = {BackendType.LXC: LxcBackend, BackendType.INCUS: IncusBackend}
+    backend_obj = backend_map[backend_type]()
+
+    if not backend_obj.is_available():
+        console.print(
+            f"[yellow]Warning: backend '{backend_name}' is not available "
+            f"(binary not found). Skipping backend activation.[/yellow]\n"
+            "  Install the backend and run: wdt backend switch "
+            f"{backend_name}"
+        )
+        return
+
+    set_active_backend(backend_type)
+    console.print(f"[dim]Container backend set to: {backend_name}[/dim]")
+
+    if backend_type == BackendType.INCUS:
+        console.print(
+            "[dim]Run 'wdt backend incus-setup' to import the Waydroid "
+            "container config into Incus.[/dim]"
+        )
 
 
 def _install_from_manifest(manifest_path: Path, no_bundled_apps: bool) -> None:
