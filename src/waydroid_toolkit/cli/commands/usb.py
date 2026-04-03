@@ -158,3 +158,5 @@ def usb_list() -> None:
 cmd.add_command(usb_attach, name="add")
 cmd.add_command(usb_detach, name="remove")
 cmd.add_command(usb_list_host, name="host")
+cmd.add_command(usb_list, name="ls")
+cmd.add_command(usb_detach, name="rm")

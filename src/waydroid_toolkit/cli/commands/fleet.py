@@ -202,3 +202,10 @@ def fleet_exec(command: tuple, all_instances: bool) -> None:
             console.print(result.stdout.rstrip())
         if result.returncode != 0 and result.stderr:
             console.print(f"  [red]{result.stderr.strip()}[/red]")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(fleet_list, name="ls")
+cmd.add_command(fleet_list, name="all")
+cmd.add_command(fleet_list, name="running")
+cmd.add_command(fleet_list, name="stopped")

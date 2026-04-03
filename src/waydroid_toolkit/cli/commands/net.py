@@ -246,3 +246,10 @@ def net_status() -> None:
 
     if not found:
         console.print("  [yellow]None[/yellow]")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(net_forward, name="fwd")
+cmd.add_command(net_unforward, name="unfwd")
+cmd.add_command(net_unforward, name="rm")
+cmd.add_command(net_list, name="ls")

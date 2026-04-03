@@ -141,3 +141,8 @@ def publish_delete(alias: str) -> None:
         console.print(f"[red]Delete failed:[/red] {exc}")
         raise SystemExit(1) from exc
     console.print(f"[green]Deleted image:[/green] {alias}")
+
+
+# Aliases matching incusbox / imt conventions
+cmd.add_command(publish_list, name="ls")
+cmd.add_command(publish_delete, name="rm")
