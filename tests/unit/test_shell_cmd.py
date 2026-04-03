@@ -63,7 +63,7 @@ def test_shell_root_uses_execvp() -> None:
     runner = CliRunner()
     with patch("waydroid_toolkit.cli.commands.shell.os.execvp") as mock_exec:
         mock_exec.side_effect = SystemExit(0)
-        result = runner.invoke(cli, ["shell", "root"])
+        runner.invoke(cli, ["shell", "root"])
     mock_exec.assert_called_once()
     args = mock_exec.call_args[0]
     assert args[0] == "incus"
@@ -75,7 +75,7 @@ def test_shell_enter_uses_execvp() -> None:
     runner = CliRunner()
     with patch("waydroid_toolkit.cli.commands.shell.os.execvp") as mock_exec:
         mock_exec.side_effect = SystemExit(0)
-        result = runner.invoke(cli, ["shell", "enter"])
+        runner.invoke(cli, ["shell", "enter"])
     mock_exec.assert_called_once()
     args = mock_exec.call_args[0]
     assert args[0] == "incus"
