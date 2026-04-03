@@ -63,7 +63,7 @@ def backup_delete(name: str) -> None:
             console.print(f"[green]Deleted:[/green] {path}")
             return
     console.print(f"[red]Backup not found:[/red] {name}")
-    console.print(f"List backups with: wdt backup list")
+    console.print("List backups with: wdt backup list")
     raise SystemExit(1)
 
 
