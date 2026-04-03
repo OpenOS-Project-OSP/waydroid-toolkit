@@ -1,0 +1,33 @@
+# Incus profile for Waydroid containers.
+# Install with: wdt profiles incus install
+# Apply with:   wdt profiles incus apply <container> waydroid
+description: Waydroid Android container (binder, ashmem, tmpfs mounts)
+config:
+  raw.lxc: |
+    lxc.apparmor.profile=unconfined
+    lxc.cap.drop=
+    lxc.cgroup.devices.allow=a
+    lxc.mount.auto=proc:rw sys:rw cgroup:rw
+  security.nesting: "true"
+  security.privileged: "true"
+devices:
+  binder:
+    path: /dev/binder
+    source: /dev/binder
+    type: unix-char
+  vndbinder:
+    path: /dev/vndbinder
+    source: /dev/vndbinder
+    type: unix-char
+  hwbinder:
+    path: /dev/hwbinder
+    source: /dev/hwbinder
+    type: unix-char
+  ashmem:
+    path: /dev/ashmem
+    source: /dev/ashmem
+    type: unix-char
+  fuse:
+    path: /dev/fuse
+    source: /dev/fuse
+    type: unix-char
